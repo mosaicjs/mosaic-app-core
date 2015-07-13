@@ -26,7 +26,7 @@ describe('Application', function(){
     }
     let app;
     beforeEach(function(){
-        app = new Application({});
+        app = new Application({ stateFields: ['theme', 'locale', 'mode'] });
         app.registerModule('admin/*path', new MyModule({app, name: 'admin'}));
         app.registerModule('map/*path', new MyModule({app, name: 'map'}));
         app.registerModule('*path', new MyModule({app, name: 'root'}));
