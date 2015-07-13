@@ -1,9 +1,9 @@
 import expect from 'expect.js';
-import { Application, Screen } from '../';
+import { Application, AppModule } from '../';
 
 describe('Application', function(){
     let states = [];
-    class MyScreen extends Screen {
+    class MyModule extends AppModule {
         printParams(stage, params){
             states.push({
                 name: this.options.name,
@@ -26,13 +26,10 @@ describe('Application', function(){
     }
     let app;
     beforeEach(function(){
-        app = new Application({
-            modules: [function(app) {
-                app.registerScreen('admin/*path', new MyScreen({app, name: 'admin'}));
-                app.registerScreen('map/*path', new MyScreen({app, name: 'map'}));
-                app.registerScreen('*path', new MyScreen({app, name: 'root'}));
-            }]
-        });
+        app = new Application({});
+        app.registerModule('admin/*path', new MyModule({app, name: 'admin'}));
+        app.registerModule('map/*path', new MyModule({app, name: 'map'}));
+        app.registerModule('*path', new MyModule({app, name: 'root'}));
     });
     
     function delay(timeout, method){
@@ -53,7 +50,7 @@ describe('Application', function(){
              'mode': 'mobile',
              'theme' : 'dark',
              'locale' : 'fr',
-             'screen' : 'admin/path/to/my/file.txt'
+             'path' : 'admin/path/to/my/file.txt'
         }).then(function(){
             expect(states).to.eql([{
                 stage: 'activate',
@@ -70,7 +67,7 @@ describe('Application', function(){
                 'locale': 'fr',
                 'theme' : 'dark',
                 'mode' : 'mobile',
-                'screen' : 'admin/path/to/my/file.txt'
+                'path' : 'admin/path/to/my/file.txt'
             });
             states = [];
             return app.setState({
@@ -94,13 +91,13 @@ describe('Application', function(){
                 'locale': 'en',
                 'theme' : 'dark',
                 'mode' : 'desktop',
-                'screen' : 'admin/path/to/my/file.txt'
+                'path' : 'admin/path/to/my/file.txt'
             });
             states = [];
             return app.setState({
                 'theme': 'light',
                 'mode' : 'desktop',
-                'screen' : 'map/company/ubimix.md'
+                'path' : 'map/company/ubimix.md'
             });
         }).then(function(){
             expect(states).to.eql([{
@@ -126,11 +123,11 @@ describe('Application', function(){
                 'locale': 'en',
                 'theme' : 'light',
                 'mode' : 'desktop',
-                'screen' : 'map/company/ubimix.md'
+                'path' : 'map/company/ubimix.md'
             });
             states = [];
             return app.setState({
-                'screen' : 'foo/bar'
+                'path' : 'foo/bar'
             });
         }).then(function(){
             expect(states).to.eql([
@@ -158,7 +155,7 @@ describe('Application', function(){
                 'locale': 'en',
                 'theme' : 'light',
                 'mode' : 'desktop',
-                'screen' : 'foo/bar'
+                'path' : 'foo/bar'
             });
         }).then(done, done);
     });
@@ -169,7 +166,7 @@ describe('Application', function(){
             'mode': 'mobile',
             'theme' : 'dark',
             'locale' : 'fr',
-            'screen' : 'admin/path/to/my/file.txt'
+            'path' : 'admin/path/to/my/file.txt'
        }).then(function(){
            expect(states).to.eql([{
                stage: 'activate',

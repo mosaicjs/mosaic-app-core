@@ -1,6 +1,6 @@
 import Application from './lib/Application';
-import Screen from './lib/Screen';
+import AppModule from './lib/AppModule';
 export default {
     Application,
-    Screen
+    AppModule
 }
