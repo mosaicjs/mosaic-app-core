@@ -34,6 +34,7 @@
     "mosaic-adapters": "^0.2.4",
     "mosaic-i18n": "^0.1.0",
     "mosaic-intents": "^0.2.3",
-    "mosaic-pathmapper": "^0.1.1"
+    "mosaic-pathmapper": "^0.1.1",
+    "promise": "^7.0.3"
   }
 }
