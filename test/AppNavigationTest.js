@@ -70,7 +70,8 @@ describe('AppNavigation', function(){
             test({
                 url : 'fr/a/foo/bar',
                 state : {
-                    locale : 'fr'
+                    locale : 'fr',
+                    path : 'a/foo/bar'
                 },
                 traces : [{
                     name: 'a',
@@ -83,7 +84,8 @@ describe('AppNavigation', function(){
             test({
                 url : 'en/b/toto/titi',
                 state : {
-                    locale : 'en'
+                    locale : 'en',
+                    path : 'b/toto/titi'
                 },
                 traces : [{
                     name: 'a',
@@ -102,9 +104,15 @@ describe('AppNavigation', function(){
                 state : {
                     locale : 'en',
                     theme : 'light',
-                    mode : 'mobile'
+                    mode : 'mobile',
+                    // The last URL change don't touch the path
+                    path : 'b/toto/titi'
                 },
-                traces : [],
+                traces : [{
+                    name : 'b',
+                    stage : 'update',
+                    params : { y : 'toto/titi' }
+                }],
             });
             return nav.setUrl('fr/blah-blah-blah/xxx');
         }).then(function(){
@@ -113,7 +121,8 @@ describe('AppNavigation', function(){
                 state : {
                     locale : 'fr',
                     theme : 'light',
-                    mode : 'mobile'
+                    mode : 'mobile',
+                    path : 'blah-blah-blah/xxx'
                 },
                 traces : [{
                     name: 'b',
@@ -137,9 +146,14 @@ describe('AppNavigation', function(){
                 state : {
                     locale : 'en',
                     theme : 'dark',
-                    mode : 'desktop'
+                    mode : 'desktop',
+                    path : 'blah-blah-blah/xxx'
                 },
-                traces : [],
+                traces : [{
+                    name : 'root',
+                    stage : 'update',
+                    params : { z : 'blah-blah-blah/xxx' }
+                }],
             });
         })
         //
