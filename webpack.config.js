@@ -12,5 +12,6 @@ module.exports = {
             loader : 'babel?optional[]=runtime'
         } ]
     },
-    externals : []
+    externals : [ "promise", "mosaic-adapters", "mosaic-i18n",
+            "mosaic-intents", "mosaic-pathmapper", "node-libs-browser" ]
 };
