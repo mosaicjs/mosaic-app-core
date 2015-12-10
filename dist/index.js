@@ -1582,7 +1582,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            if (window.history) {
 	                var formattedUrl = _url2['default'].resolve(this.baseUrlFormatted, url);
-	                console.log('XXXXXXXXXXXX', this.baseUrlFormatted, '[' + url + ']', formattedUrl);
 	                var objUrl = _url2['default'].parse(formattedUrl);
 	                window.history.replaceState(objUrl, formattedUrl, formattedUrl);
 	            }
