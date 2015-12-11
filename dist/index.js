@@ -1437,9 +1437,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function start() {
 	            var that = this;
 	            return _promise2['default'].resolve().then(function () {
-	                that.nav.start();
-	                that.app.addListener('state', that._onAppStateUpdated);
 	                return that.app.start();
+	            }).then(function () {
+	                that.app.addListener('state', that._onAppStateUpdated);
+	                return that.nav.start();
 	            });
 	        }
 	    }, {
