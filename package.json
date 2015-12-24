@@ -1,5 +1,5 @@
 {
-  "name": "mosaic-app",
+  "name": "mosaic-app-core",
   "version": "0.3.4",
   "description": "Default application",
   "main": "index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mosaicjs/mosaic-app"
+    "url": "https://github.com/mosaicjs/mosaic-app-core"
   },
   "keywords": [
     "application"
@@ -19,7 +19,7 @@
   "author": "Mikhail Kotelnikov <mikhail.kotelnikov@ubimix.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mosaicjs/mosaic-app/issues"
+    "url": "https://github.com/mosaicjs/mosaic-app-core/issues"
   },
   "devDependencies": {
     "babel-core": "^5.8.3",

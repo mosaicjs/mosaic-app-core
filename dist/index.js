@@ -597,7 +597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        (0, _mosaicIntents.Intents)(this);
 	        this.options = options || {};
-	        this.adapters = new _mosaicAdapters.AdapterManager();
+	        this.adapters = this.options.adapters || new _mosaicAdapters.AdapterManager();
 	        this.modules = new _AppRouter2['default']();
 	        this.i18n = new _mosaicI18n.I18N();
 	        this.initI18N();
