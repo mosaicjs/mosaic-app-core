@@ -599,12 +599,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.options = options || {};
 	        this.adapters = this.options.adapters || new _mosaicAdapters.AdapterManager();
 	        this.modules = new _AppRouter2['default']();
-	        this.i18n = new _mosaicI18n.I18N();
+	        this._i18n = new _mosaicI18n.I18N();
 	        this.initI18N();
 
 	        // Internal application state initialization
 	        this._state = {};
 	        this._initStateFields();
+
+	        this._handleError = this._handleError.bind(this);
 	    }
 
 	    // -----------------------------------------------------------------------
@@ -653,10 +655,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                that._state[type] = state[type];
 	            }
 	            return that.action('state', function (intent) {
-	                return that.modules.setPath(that._state.path).then(function () {
+	                return that.modules.setPath(that._state.path || '').then(function () {
 	                    intent.resolve(that._state);
 	                    return that._state;
-	                });
+	                }, this._handleError);
 	            });
 	        }
 
@@ -719,14 +721,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'initI18N',
 	        value: function initI18N() {
-	            var i18n = this.options.i18n || {};
-	            for (var locale in i18n) {
-	                var batches = i18n[locale] || {};
+	            var locales = this._getI18NBundles();
+	            for (var locale in locales) {
+	                var batches = locales[locale] || {};
 	                for (var batchKey in batches) {
 	                    var batch = batches[batchKey];
-	                    this.i18n.registerTranslations(locale, batchKey, batch);
+	                    this._i18n.registerTranslations(locale, batchKey, batch);
 	                }
 	            }
+	        }
+	    }, {
+	        key: 'locales',
+	        value: function locales() {
+	            var locales = this._getI18NBundles();
+	            return _Object$keys(locales);
 	        }
 
 	        /**
@@ -735,13 +743,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getMessages',
 	        value: function getMessages(bundleKey, bundle) {
-	            var locale = this.getState().locale;
-	            return this.i18n.getMessages(locale, bundleKey, bundle);
+	            var locales = this._getI18NBundles();
+	            var locale = this.state.locale || this.defaultState.locale;
+	            if (!(locale in locales)) {
+	                locale = this.defaultState.locale;
+	            }
+	            return this._i18n.getMessages(locale, bundleKey, bundle);
+	        }
+	    }, {
+	        key: '_getI18NBundles',
+	        value: function _getI18NBundles() {
+	            return this.options.i18n || {};
+	        }
+
+	        // -----------------------------------------------------------------------
+
+	    }, {
+	        key: '_handleError',
+	        value: function _handleError(err) {
+	            console.log('ERROR!', err);
+	            throw err;
 	        }
 	    }, {
 	        key: 'state',
 	        get: function get() {
 	            return copy(this._state);
+	        }
+	    }, {
+	        key: 'defaultState',
+	        get: function get() {
+	            return this.options.defaultState || { locale: 'en' };
 	        }
 	    }]);
 
