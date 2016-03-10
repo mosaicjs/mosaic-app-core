@@ -651,11 +651,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	         */
 	        value: function setState(state) {
 	            var that = this;
-	            for (var type in state) {
-	                that._state[type] = state[type];
-	            }
+	            state = state || {};
+	            var path = that._state.path || state.path || '';
 	            return that.action('state', function (intent) {
-	                return that.modules.setPath(that._state.path || '').then(function () {
+	                for (var key in state) {
+	                    that._state[key] = state[key];
+	                }
+	                return that.modules.setPath(path).then(function () {
 	                    intent.resolve(that._state);
 	                    return that._state;
 	                }, this._handleError);
