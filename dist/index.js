@@ -1470,10 +1470,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function start() {
 	            var that = this;
 	            return _promise2['default'].resolve().then(function () {
-	                return that.app.start();
-	            }).then(function () {
 	                that.app.addListener('state', that._onAppStateUpdated);
 	                return that.nav.start();
+	            }).then(function () {
+	                return that.app.start();
 	            });
 	        }
 	    }, {
@@ -1481,9 +1481,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function stop() {
 	            var that = this;
 	            return _promise2['default'].resolve().then(function () {
+	                return that.app.stop();
+	            }).then(function () {
 	                that.nav.stop();
 	                that.app.removeListener('state', this._onAppStateUpdated);
-	                return that.app.stop();
 	            });
 	        }
 
