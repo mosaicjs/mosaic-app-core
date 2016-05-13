@@ -615,7 +615,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _createClass(Application, [{
 	        key: 'start',
-	        value: function start() {
+	        value: function start(state) {
 	            return _promise2['default'].resolve();
 	        }
 	    }, {
@@ -1470,10 +1470,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function start() {
 	            var that = this;
 	            return _promise2['default'].resolve().then(function () {
-	                that.app.addListener('state', that._onAppStateUpdated);
+	                that.state = {};
 	                return that.nav.start();
 	            }).then(function () {
-	                return that.app.start();
+	                that.app.addListener('state', that._onAppStateUpdated);
+	                return that.app.start(that.state).then(function () {
+	                    that._started = true;
+	                });
 	            });
 	        }
 	    }, {
@@ -1494,8 +1497,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: '_onUrlChange',
 	        value: function _onUrlChange(url, nav) {
 	            var path = this.nav.relativeUrlFormatted;
-	            var state = this.parseState(path);
-	            this.app.setState(state);
+	            this.state = this.parseState(path);
+	            if (this._started) {
+	                this.app.setState(this.state);
+	            }
 	        }
 	    }, {
 	        key: '_onAppStateUpdated',
